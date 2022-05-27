@@ -1,0 +1,4 @@
+rootProject.name = "BeeCycle"
+include ':app'
+include ':domain'
+include ':data'

@@ -6,6 +6,6 @@ A simple app promoting cycling for commuting. Using various services, the app te
 - Kotlin as the language
 - Kotlin Coroutines and Flow for handling API calls
 - Retrofit for the API calls
-- Koin for dependency resolution
+- Koin for dependency resolution1
 - Presentation layer with MVI pattern
 - Coil for image loading

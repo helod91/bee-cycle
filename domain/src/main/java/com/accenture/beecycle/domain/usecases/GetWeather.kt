@@ -19,8 +19,8 @@ class GetWeather(
             throw DomainException(DomainErrorCode.NO_INTERNET_CONNECTION)
         }
 
-        return Data.success(weatherRepository.getWeather())
+        return Data.success(weatherRepository.getWeather(params.latitude, params.longitude))
     }
 
-    data class Params(val nothing: Nothing)
+    data class Params(val latitude: Double?, val longitude: Double?)
 }

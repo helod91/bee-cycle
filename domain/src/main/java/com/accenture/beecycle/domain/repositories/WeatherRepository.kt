@@ -4,5 +4,5 @@ import com.accenture.beecycle.domain.models.Weather
 
 interface WeatherRepository {
 
-    suspend fun getWeather(): Weather
+    suspend fun getWeather(latitude: Double?, longitude: Double?): Weather
 }

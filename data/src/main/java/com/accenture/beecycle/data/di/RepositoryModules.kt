@@ -6,6 +6,7 @@ import com.accenture.beecycle.domain.repositories.NetworkInfoProvider
 import com.accenture.beecycle.domain.repositories.WeatherRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 @ExperimentalCoroutinesApi
@@ -16,6 +17,6 @@ val repositoryModules = module {
     }
 
     single<WeatherRepository> {
-        RemoteWeatherRepository()
+        RemoteWeatherRepository(get(), get())
     }
 }

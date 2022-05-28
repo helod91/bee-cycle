@@ -9,9 +9,9 @@ class RemoteBicycleRepository : BicycleRepository {
 
     override suspend fun getUserBicycles(): List<Bicycle> {
         return ArrayList<Bicycle>().apply {
-            add(Bicycle("Red Rocket", "Pegas", "20", "128", "-64", "32", RIDE_TYPE.BICYCLE))
-            add(Bicycle("Thor", "Xiaomi", "25", "256", "-128", "64",RIDE_TYPE.E_SCOOTER))
-            add(Bicycle("BiKing", "Scott", "40", "512", "-256", "128",RIDE_TYPE.E_BICYCLE))
+            add(Bicycle("Red Rocket", "Pegas", "20", "128", "64", "32", RIDE_TYPE.BICYCLE))
+            add(Bicycle("Thor", "Xiaomi", "25", "256", "128", "64",RIDE_TYPE.E_SCOOTER))
+            add(Bicycle("BiKing", "Scott", "40", "512", "256", "128",RIDE_TYPE.E_BICYCLE))
         }
     }
 

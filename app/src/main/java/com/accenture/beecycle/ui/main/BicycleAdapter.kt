@@ -31,7 +31,7 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
             bicycleBrand.text = bicycle?.brand
             bicycleSpeedValue.text = "${bicycle?.avgSpeed} km/h"
             bicycleDistanceValue.text = "${bicycle?.distanceTraveled} km"
-            bicycleImpactValue.text = "${bicycle?.impact} CO2"
+            bicycleImpactValue.text = "${bicycle?.impact} g/km"
             bicycleMoneySaved.text = "You saved ${bicycle?.moneySaved}RON this week!"
 
             bicycleAnimation.setAnimation(getRideAnimation(bicycle?.rideType))

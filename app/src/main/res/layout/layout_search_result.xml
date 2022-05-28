@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="15min"
+                    android:text="7min"
                     android:textSize="12sp" />
 
                 <TextView
@@ -113,19 +113,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="20min"
+                    android:text="10min"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="360g CO2"
+                    android:text="1.5kg CO2"
                     android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="~10RON"
+                    android:text="~5RON"
                     android:textSize="12sp" />
 
                 <TextView
@@ -156,7 +156,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:gravity="center_horizontal"
-        android:text="Choosing to ride with your bicycle will save you 5 minutes, the environment 360g of CO2 emission and burn off 140 calories.\n\n
+        android:text="Choosing to ride with your bicycle will save you 3 minutes, the environment 1.5kg of CO2 emission and burn off 140 calories.\n\n
         Based on your settings, the weather conditions are also optimal.\n\n
         It's highly recommended you opt to ride with a bike to your destination."
         android:textSize="14sp" />

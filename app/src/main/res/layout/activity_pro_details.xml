@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginStart="24dp"
-        android:text="And then 20RON/month or 100RON/year" />
+        android:text="And then 10RON/month or 100RON/year" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

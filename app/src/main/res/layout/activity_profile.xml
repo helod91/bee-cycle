@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="20RON/month or 100RON/year"
+                    android:text="10RON/month or 100RON/year"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -412,7 +412,7 @@
                                 android:id="@+id/profile_co_impact"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="500 g/km"
+                                android:text="500 kg"
                                 android:textSize="18sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />

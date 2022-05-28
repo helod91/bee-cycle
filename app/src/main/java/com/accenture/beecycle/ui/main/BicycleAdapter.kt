@@ -12,10 +12,13 @@ import com.accenture.beecycle.databinding.ItemBicycleCardBinding
 import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
 import com.accenture.beecycle.ui.search.SearchActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
+
+    private var addBikeListener : (() -> Unit)? = null
 
     override fun presentBinding(parent: ViewGroup): ItemBicycleCardBinding =
         ItemBicycleCardBinding.inflate(
@@ -40,6 +43,10 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
             if (bicycle?.rideType == RIDE_TYPE.ADD_BIKE) {
                 hideViews(bicycleName, bicycleBrand, bicycleSpeed, bicycleDistance, bicycleImpact, bicycleMoneySaved, bicycleAnimation, bicycleOpenRoutePlanner)
                 showViews(bicycleAddBikeLabel, bicycleAddBikeAnimation)
+
+                root.setOnClickListener {
+                    addBikeListener?.invoke()
+                }
             } else {
                 showViews(bicycleName, bicycleBrand, bicycleSpeed, bicycleDistance, bicycleImpact, bicycleMoneySaved, bicycleAnimation, bicycleOpenRoutePlanner)
                 hideViews(bicycleAddBikeLabel, bicycleAddBikeAnimation)
@@ -48,8 +55,14 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
                     val openSearch = Intent(root.context, SearchActivity::class.java)
                     root.context.startActivity(openSearch)
                 }
+
+                root.setOnClickListener(null)
             }
         }
+    }
+
+    fun setAddNewBikeListener(listener: (() -> Unit)?) {
+        addBikeListener = listener
     }
 
     private fun getRideAnimation(rideType: RIDE_TYPE?) : Int {

@@ -21,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
 
         with(ActivityProfileBinding.inflate(LayoutInflater.from(this))) {
             Glide.with(profileUserAvatar)
-                .load("https://imagez.tmz.com/image/bf/4by3/2022/04/05/bf0bbec74a1a463f96cf1bacfa831049_md.jpg")
+                .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeqTF3M55Y384pBCWI9W88SriOEQrSUk5tHA&usqp=CAU")
                 .circleCrop()
                 .into(profileUserAvatar)
 

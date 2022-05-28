@@ -6,13 +6,16 @@ import com.accenture.beecycle.domain.models.Team
 import com.accenture.beecycle.domain.repositories.BicycleRepository
 
 class RemoteBicycleRepository : BicycleRepository {
-
-    override suspend fun getUserBicycles(): List<Bicycle> {
-        return ArrayList<Bicycle>().apply {
+    companion object {
+        val BIKES = ArrayList<Bicycle>().apply {
             add(Bicycle("Red Rocket", "Pegas", "20", "128", "64", "32", RIDE_TYPE.BICYCLE))
             add(Bicycle("Thor", "Xiaomi", "25", "256", "128", "64",RIDE_TYPE.E_SCOOTER))
             add(Bicycle("BiKing", "Scott", "40", "512", "256", "128",RIDE_TYPE.E_BICYCLE))
         }
+    }
+
+    override suspend fun getUserBicycles(): List<Bicycle> {
+        return BIKES
     }
 
     override suspend fun getTeams(): List<Team> {

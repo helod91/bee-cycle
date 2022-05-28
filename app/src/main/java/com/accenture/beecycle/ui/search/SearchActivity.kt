@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class SearchActivity :
@@ -84,6 +85,15 @@ class SearchActivity :
             SearchState.LoadingSearchResult -> binding.searchResultView.loading()
             SearchState.NoSearchResult -> binding.searchResultView.loading()
             is SearchState.ResultSearch -> binding.searchResultView.setResults(state.results)
+            is SearchState.ResultWeather -> {
+                binding.searchTemperature.text = String.format(Locale.getDefault(), "%.0f°C", state.weather.temperature)
+                binding.searchWind.text = String.format(
+                    Locale.getDefault(),
+                    resources.getString(R.string.wind_unit_label),
+                    state.weather.windSpeed
+                )
+                binding.searchHumidity.text = "${state.weather.humidity}%"
+            }
         }
     }
 
@@ -120,6 +130,8 @@ class SearchActivity :
             .addOnSuccessListener(this) { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
+                    dispatchIntent(SearchIntent.GetCurrentWeather(location.latitude, location.longitude))
+
                     val coordinate = LatLng(
                         location.latitude,
                         location.longitude

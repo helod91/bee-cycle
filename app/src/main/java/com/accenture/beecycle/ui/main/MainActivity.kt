@@ -6,10 +6,15 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.accenture.beecycle.R
 import com.accenture.beecycle.common.BaseActivity
+import com.accenture.beecycle.data.repositories.RemoteBicycleRepository
+import com.accenture.beecycle.data.repositories.RemoteBicycleRepository.Companion.BIKES
 import com.accenture.beecycle.databinding.ActivityMainBinding
+import com.accenture.beecycle.databinding.LayoutAddBikeBinding
 import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
 import com.accenture.beecycle.ui.profile.ProfileActivity
@@ -17,6 +22,7 @@ import com.accenture.beecycle.ui.search.SearchActivity
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,6 +43,8 @@ class MainActivity :
 
     private lateinit var locationClient: FusedLocationProviderClient
 
+    private var rideType: RIDE_TYPE = RIDE_TYPE.BICYCLE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,6 +52,7 @@ class MainActivity :
 
         listenToLocationChanges()
         setView()
+        setAddBike()
     }
 
     override fun onResume() {
@@ -95,11 +104,72 @@ class MainActivity :
         }
 
         Glide.with(this)
-            .load("https://imagez.tmz.com/image/bf/4by3/2022/04/05/bf0bbec74a1a463f96cf1bacfa831049_md.jpg")
+            .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeqTF3M55Y384pBCWI9W88SriOEQrSUk5tHA&usqp=CAU")
             .circleCrop()
             .into(binding.mainAvatar)
 
         TabLayoutMediator(binding.mainBicyclesDots, binding.mainBicycles) { _, _ -> }.attach()
+    }
+
+    private fun setAddBike() {
+        rideType = RIDE_TYPE.BICYCLE
+
+        val addBikeBinding = LayoutAddBikeBinding.inflate(LayoutInflater.from(this))
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.TransparentDialog)
+
+        addBikeBinding.addBikeBike.setOnClickListener {
+            rideType = RIDE_TYPE.BICYCLE
+
+            setSelectedWeatherPreference(
+                addBikeBinding.addBikeBike,
+                addBikeBinding.addBikeEscooter,
+                addBikeBinding.addBikeEbike
+            )
+        }
+        addBikeBinding.addBikeEbike.setOnClickListener {
+            rideType = RIDE_TYPE.E_BICYCLE
+
+            setSelectedWeatherPreference(
+                addBikeBinding.addBikeEbike,
+                addBikeBinding.addBikeBike,
+                addBikeBinding.addBikeEscooter
+            )
+        }
+        addBikeBinding.addBikeEscooter.setOnClickListener {
+            rideType = RIDE_TYPE.E_SCOOTER
+
+            setSelectedWeatherPreference(
+                addBikeBinding.addBikeEscooter,
+                addBikeBinding.addBikeEbike,
+                addBikeBinding.addBikeBike
+            )
+        }
+
+        addBikeBinding.addBikeSave.setOnClickListener {
+            BIKES.add(Bicycle(addBikeBinding.addBikeName.text.toString(), addBikeBinding.addBikeBrand.text.toString(),
+                rideType.baseSpeed, "0", "0", "0", rideType
+            ))
+
+            addBikeBinding.addBikeName.text = null
+            addBikeBinding.addBikeBrand.text = null
+
+            rideType = RIDE_TYPE.BICYCLE
+
+            setSelectedWeatherPreference(
+                addBikeBinding.addBikeBike,
+                addBikeBinding.addBikeEscooter,
+                addBikeBinding.addBikeEbike
+            )
+
+            bottomSheetDialog.dismiss()
+
+            dispatchIntent(MainIntent.GetUserBicycles)
+        }
+
+        bicycleAdapter.setAddNewBikeListener {
+            bottomSheetDialog.setContentView(addBikeBinding.root)
+            bottomSheetDialog.show()
+        }
     }
 
     private fun listenToLocationChanges() {
@@ -122,5 +192,13 @@ class MainActivity :
             .addOnSuccessListener(this) { location ->
                 dispatchIntent(MainIntent.GetCurrentWeather(location?.latitude, location?.longitude))
             }
+    }
+
+    private fun setSelectedWeatherPreference(
+        weatherPreference: ConstraintLayout,
+        vararg unSelectableViews: ConstraintLayout
+    ) {
+        weatherPreference.setBackgroundResource(R.drawable.bg_selected_card)
+        unSelectableViews.forEach { it.background = null }
     }
 }

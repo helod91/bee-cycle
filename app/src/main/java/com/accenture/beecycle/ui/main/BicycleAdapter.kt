@@ -32,6 +32,7 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
         with(holder.binding) {
             bicycleName.text = bicycle?.name
             bicycleBrand.text = bicycle?.brand
+            bicycleType.text = bicycle?.rideType?.title
             bicycleSpeedValue.text = "${bicycle?.avgSpeed} km/h"
             bicycleDistanceValue.text = "${bicycle?.distanceTraveled} km"
             bicycleImpactValue.text = "${bicycle?.impact} g/km"
@@ -67,10 +68,10 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
 
     private fun getRideAnimation(rideType: RIDE_TYPE?) : Int {
         return when(rideType) {
-            RIDE_TYPE.BICYCLE -> R.raw.ic_cycling
-            RIDE_TYPE.E_BICYCLE -> R.raw.ic_ebike
-            RIDE_TYPE.E_SCOOTER -> R.raw.ic_electric_scooter
-            else -> R.raw.ic_cycling
+            RIDE_TYPE.BICYCLE -> R.raw.ic_simple_bike
+            RIDE_TYPE.E_BICYCLE -> R.raw.ic_cycling
+            RIDE_TYPE.E_SCOOTER -> R.raw.ic_escooter
+            else -> R.raw.ic_simple_bike
         }
     }
 

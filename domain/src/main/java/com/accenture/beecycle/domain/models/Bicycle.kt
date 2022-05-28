@@ -10,6 +10,6 @@ data class Bicycle(
     val rideType: RIDE_TYPE
 )
 
-enum class RIDE_TYPE(val baseSpeed: String) {
-    BICYCLE("20"), E_BICYCLE("40"), E_SCOOTER("25"), ADD_BIKE("-")
+enum class RIDE_TYPE(val baseSpeed: String, val title: String) {
+    BICYCLE("20", "Bicycle"), E_BICYCLE("40", "eBike"), E_SCOOTER("25", "eScooter"), ADD_BIKE("-", "-")
 }

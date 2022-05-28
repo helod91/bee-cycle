@@ -1,7 +1,9 @@
 package com.accenture.beecycle.data.di
 
 import com.accenture.beecycle.data.repositories.DeviceNetworkInfoProvider
+import com.accenture.beecycle.data.repositories.RemoteBicycleRepository
 import com.accenture.beecycle.data.repositories.RemoteWeatherRepository
+import com.accenture.beecycle.domain.repositories.BicycleRepository
 import com.accenture.beecycle.domain.repositories.NetworkInfoProvider
 import com.accenture.beecycle.domain.repositories.WeatherRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,5 +20,9 @@ val repositoryModules = module {
 
     single<WeatherRepository> {
         RemoteWeatherRepository(get(), get())
+    }
+
+    single<BicycleRepository> {
+        RemoteBicycleRepository()
     }
 }

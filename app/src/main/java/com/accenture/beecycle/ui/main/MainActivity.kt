@@ -17,6 +17,7 @@ import com.accenture.beecycle.databinding.ActivityMainBinding
 import com.accenture.beecycle.databinding.LayoutAddBikeBinding
 import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
+import com.accenture.beecycle.domain.models.Team
 import com.accenture.beecycle.ui.profile.ProfileActivity
 import com.accenture.beecycle.ui.search.SearchActivity
 import com.bumptech.glide.Glide
@@ -88,7 +89,9 @@ class MainActivity :
             is MainState.ResultUserBicycles -> bicycleAdapter.data = ArrayList(state.bicycles).apply {
                 add(Bicycle(rideType = RIDE_TYPE.ADD_BIKE))
             }
-            is MainState.ResultUserTeams -> teamAdapter.data = state.teams
+            is MainState.ResultUserTeams -> teamAdapter.data = ArrayList(state.teams).apply {
+                add(Team(null, null))
+            }
         }
     }
 

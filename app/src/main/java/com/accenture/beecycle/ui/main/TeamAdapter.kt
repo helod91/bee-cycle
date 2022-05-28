@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.accenture.beecycle.common.BaseAdapter
 import com.accenture.beecycle.databinding.ItemTeamBinding
 import com.accenture.beecycle.domain.models.Team
@@ -25,6 +26,14 @@ class TeamAdapter : BaseAdapter<ItemTeamBinding, Team>() {
     override fun onBindViewHolder(holder: ViewHolder<ItemTeamBinding>, position: Int) {
         val team = data?.get(position)
         with(holder.binding) {
+            if (team?.name == null && team?.members == null) {
+                showViews(teamAddTeamAnimation, teamAddTeamLabel)
+                hideViews(teamRide, teamName, teamMembers,teamMember1, teamMember2, teamMember3, teamMember4)
+            } else {
+                showViews(teamRide, teamName, teamMembers,teamMember1, teamMember2, teamMember3, teamMember4)
+                hideViews(teamAddTeamAnimation, teamAddTeamLabel)
+            }
+
             teamName.text = team?.name
             teamMembers.text = "${team?.members?.size} in this team"
             setAvatars(this, team?.members)
@@ -71,6 +80,10 @@ class TeamAdapter : BaseAdapter<ItemTeamBinding, Team>() {
                 loadImage(binding.teamMember4, members?.get(3))
             }
         }
+    }
+
+    private fun showViews(vararg views: View) {
+        views.forEach { it.isVisible = true }
     }
 
     private fun hideViews(vararg views: View) {

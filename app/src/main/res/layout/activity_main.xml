@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_container"
     android:layout_width="match_parent"
-    android:background="@color/grey_10"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_10">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -79,34 +79,36 @@
             android:layout_marginStart="24dp"
             android:text="Teams"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/main_pro"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/main_pro"
-            app:layout_constraintBottom_toBottomOf="@id/main_pro"/>
+            app:layout_constraintTop_toTopOf="@id/main_pro" />
 
         <TextView
             android:id="@+id/main_pro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_pro"
-            app:layout_constraintTop_toBottomOf="@id/main_weather"
-            android:text="PRO"
-            android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            app:layout_constraintStart_toEndOf="@id/tv_label_teams"
-            android:textColor="@color/white"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_pro"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp"
+            android:text="PRO"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/tv_label_teams"
+            app:layout_constraintTop_toBottomOf="@id/main_weather" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_teams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:paddingStart="16dp"
+            android:paddingTop="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_label_teams"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_label_teams" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

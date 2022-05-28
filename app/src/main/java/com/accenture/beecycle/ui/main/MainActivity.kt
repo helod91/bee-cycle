@@ -1,6 +1,7 @@
 package com.accenture.beecycle.ui.main
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.accenture.beecycle.common.BaseActivity
 import com.accenture.beecycle.databinding.ActivityMainBinding
 import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
+import com.accenture.beecycle.ui.profile.ProfileActivity
 import com.accenture.beecycle.ui.search.SearchActivity
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -86,6 +88,11 @@ class MainActivity :
 
         binding.mainTeams.adapter = teamAdapter
         binding.mainTeams.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.mainAvatar.setOnClickListener {
+            val openProfile = Intent(this, ProfileActivity::class.java)
+            startActivity(openProfile)
+        }
 
         Glide.with(this)
             .load("https://imagez.tmz.com/image/bf/4by3/2022/04/05/bf0bbec74a1a463f96cf1bacfa831049_md.jpg")

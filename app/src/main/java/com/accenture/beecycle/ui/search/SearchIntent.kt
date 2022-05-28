@@ -2,5 +2,6 @@ package com.accenture.beecycle.ui.search
 
 import com.accenture.beecycle.common.ViewIntent
 
-class SearchIntent : ViewIntent {
+sealed class SearchIntent : ViewIntent {
+    data class GetSearchResults(val destination: String) : SearchIntent()
 }

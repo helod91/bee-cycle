@@ -2,19 +2,24 @@ package com.accenture.beecycle.ui.search
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.accenture.beecycle.R
 import com.accenture.beecycle.common.BaseActivity
 import com.accenture.beecycle.databinding.ActivitySearchBinding
+import com.accenture.beecycle.databinding.LayoutSearchResultBinding
 import com.accenture.beecycle.domain.models.Vehicle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -23,6 +28,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.content_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,6 +53,8 @@ class SearchActivity :
 
     override val viewModel: SearchViewModel by viewModel()
 
+    private var googleMap: GoogleMap? = null
+
     override fun presentBinding(): ActivitySearchBinding =
         ActivitySearchBinding.inflate(LayoutInflater.from(this))
 
@@ -67,8 +76,60 @@ class SearchActivity :
 
     private fun setViews() {
         vehicleAdapter.data = getTrips()
-        binding.searchBottomSheet.mainVehicles.adapter = vehicleAdapter
-        binding.searchBottomSheet.mainVehicles.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.searchContent.searchClose.setOnClickListener {
+            onBackPressed()
+        }
+        binding.searchContent.etSearchLocation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                addMarker()
+                this.currentFocus?.let { view ->
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+                binding.searchContent.searchLoading.isVisible = true
+                Handler().postDelayed({
+                    showResults(binding.searchContent.etSearchLocation.text?.toString())
+                }, 2500)
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+    }
+
+    private fun showResults(destination: String?) {
+        binding.searchContent.searchLoading.isVisible = false
+
+        val searchResultBottomSheet = BottomSheetDialog(this)
+
+        val searchResultBinding = LayoutSearchResultBinding.inflate(LayoutInflater.from(this))
+        searchResultBinding.searchResultDestination.text = "for $destination"
+        searchResultBinding.searchResultRideWithBike.setOnClickListener {
+            Toast.makeText(this, "Travel logged. Ride safe!", Toast.LENGTH_SHORT).show()
+            searchResultBottomSheet.dismiss()
+        }
+        searchResultBinding.searchResultRideWithCar.setOnClickListener {
+            Toast.makeText(this, "Travel logged. You suck!", Toast.LENGTH_SHORT).show()
+            searchResultBottomSheet.dismiss()
+        }
+
+        searchResultBottomSheet.setContentView(searchResultBinding.root)
+        searchResultBottomSheet.show()
+    }
+
+    private fun addMarker() {
+        val coordinate = LatLng(
+            46.7636947,
+            23.5888902
+        )
+        //Store these lat lng values somewhere. These should be constant.
+
+        val cameraFactory = CameraUpdateFactory.newLatLngZoom(
+            coordinate, 17f
+        )
+        googleMap?.animateCamera(cameraFactory)
+        val markerOption = MarkerOptions()
+            .position(coordinate)
+        googleMap?.addMarker(markerOption)
     }
 
     private fun getTrips(): List<Vehicle> {
@@ -100,9 +161,6 @@ class SearchActivity :
 
     override fun render(state: SearchState) {
         when (state) {
-            SearchState.LoadingSearchResult -> binding.searchContent.searchResultView.loading()
-            SearchState.NoSearchResult -> binding.searchContent.searchResultView.loading()
-            is SearchState.ResultSearch -> binding.searchContent.searchResultView.setResults(state.results)
 //            is SearchState.ResultVehicleTrips -> vehicleAdapter.data = state.vehicles
             is SearchState.ResultWeather -> {
                 binding.searchContent.searchTemperature.text = String.format(Locale.getDefault(), "%.0f°C", state.weather.temperature)
@@ -137,6 +195,8 @@ class SearchActivity :
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+
         if (ContextCompat.checkSelfPermission(
                 this@SearchActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION

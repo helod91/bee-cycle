@@ -6,8 +6,4 @@
     tools:context=".ui.search.SearchActivity">
 
     <include android:id="@+id/search_content" layout="@layout/content_search" />
-
-    <!-- Adding bottom sheet after main content -->
-    <include android:id="@+id/search_bottom_sheet" layout="@layout/bottom_sheet" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

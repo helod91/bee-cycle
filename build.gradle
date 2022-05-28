@@ -18,6 +18,10 @@ buildscript {
     ext.koinAndroid = "io.insert-koin:koin-android:3.2.0"
     ext.coil = "io.coil-kt:coil:2.1.0"
     ext.lottie = "com.airbnb.android:lottie:5.1.1"
+    ext.googleMaps = 'com.google.android.gms:play-services-maps:17.0.0'
+    ext.location = 'com.google.android.gms:play-services-location:19.0.1'
+
+
 
     repositories {
         google()
@@ -28,6 +32,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
     }
 }
 

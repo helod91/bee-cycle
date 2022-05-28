@@ -1,5 +1,7 @@
 package com.accenture.beecycle.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import androidx.core.view.isInvisible
 import com.accenture.beecycle.common.BaseAdapter
 import com.accenture.beecycle.databinding.ItemTeamBinding
 import com.accenture.beecycle.domain.models.Team
+import com.accenture.beecycle.ui.prodetails.ProDetailsActivity
 import com.bumptech.glide.Glide
 
 class TeamAdapter : BaseAdapter<ItemTeamBinding, Team>() {
@@ -25,7 +28,19 @@ class TeamAdapter : BaseAdapter<ItemTeamBinding, Team>() {
             teamName.text = team?.name
             teamMembers.text = "${team?.members?.size} in this team"
             setAvatars(this, team?.members)
+
+            teamRide.setOnClickListener {
+                openProDetails(it.context)
+            }
+            root.setOnClickListener {
+                openProDetails(it.context)
+            }
         }
+    }
+
+    private fun openProDetails(context: Context) {
+        val openProDetails = Intent(context, ProDetailsActivity::class.java)
+        context.startActivity(openProDetails)
     }
 
     private fun setAvatars(binding: ItemTeamBinding, members: List<String>?) {

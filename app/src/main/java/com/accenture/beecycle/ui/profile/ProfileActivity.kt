@@ -1,6 +1,7 @@
 package com.accenture.beecycle.ui.profile
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.accenture.beecycle.R
 import com.accenture.beecycle.databinding.ActivityProfileBinding
+import com.accenture.beecycle.ui.prodetails.ProDetailsActivity
 import com.bumptech.glide.Glide
 import com.db.williamchart.view.DonutChartView
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -54,9 +56,12 @@ class ProfileActivity : AppCompatActivity() {
             profileCarData.donutColors = intArrayOf(Color.parseColor("#5cc87e"))
             profileCarData.animate(listOf(35f))
 
+            profilePro.setOnClickListener {
+                openProDetails()
+            }
             for (i in 0 until profileBikesContainer.childCount) {
                 profileBikesContainer.getChildAt(i).setOnClickListener {
-                    //TODO open PRO
+                    openProDetails()
                 }
             }
 
@@ -74,5 +79,10 @@ class ProfileActivity : AppCompatActivity() {
     ) {
         weatherPreference.setBackgroundResource(R.drawable.bg_selected_card)
         unSelectableViews.forEach { it.background = null }
+    }
+
+    private fun openProDetails() {
+        val openProDetails = Intent(this@ProfileActivity, ProDetailsActivity::class.java)
+        startActivity(openProDetails)
     }
 }

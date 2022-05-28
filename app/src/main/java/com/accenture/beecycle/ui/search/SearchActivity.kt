@@ -11,9 +11,11 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.accenture.beecycle.R
 import com.accenture.beecycle.common.BaseActivity
 import com.accenture.beecycle.databinding.ActivitySearchBinding
+import com.accenture.beecycle.domain.models.Vehicle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,7 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.content_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -39,6 +41,8 @@ class SearchActivity :
     private lateinit var mapFragment: SupportMapFragment
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val vehicleAdapter = VehicleAdapter()
 
     override val viewModel: SearchViewModel by viewModel()
 
@@ -58,6 +62,20 @@ class SearchActivity :
             false
         }
         getLocation()
+        setViews()
+    }
+
+    private fun setViews() {
+        vehicleAdapter.data = getTrips()
+        binding.searchBottomSheet.mainVehicles.adapter = vehicleAdapter
+        binding.searchBottomSheet.mainVehicles.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun getTrips(): List<Vehicle> {
+        return ArrayList<Vehicle>().apply {
+            add(Vehicle(R.drawable.ic_small_bike, isBicycle = true, name = "my bicycle", tripDuration = 15, tripCost = 0.0, tripEmission = 0))
+            add(Vehicle(R.drawable.ic_graph_vehicle, isBicycle = false, name = "my TDI", tripDuration = 9, tripCost = 23.7, tripEmission = 388))
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -82,17 +100,18 @@ class SearchActivity :
 
     override fun render(state: SearchState) {
         when (state) {
-            SearchState.LoadingSearchResult -> binding.searchResultView.loading()
-            SearchState.NoSearchResult -> binding.searchResultView.loading()
-            is SearchState.ResultSearch -> binding.searchResultView.setResults(state.results)
+            SearchState.LoadingSearchResult -> binding.searchContent.searchResultView.loading()
+            SearchState.NoSearchResult -> binding.searchContent.searchResultView.loading()
+            is SearchState.ResultSearch -> binding.searchContent.searchResultView.setResults(state.results)
+//            is SearchState.ResultVehicleTrips -> vehicleAdapter.data = state.vehicles
             is SearchState.ResultWeather -> {
-                binding.searchTemperature.text = String.format(Locale.getDefault(), "%.0f°C", state.weather.temperature)
-                binding.searchWind.text = String.format(
+                binding.searchContent.searchTemperature.text = String.format(Locale.getDefault(), "%.0f°C", state.weather.temperature)
+                binding.searchContent.searchWind.text = String.format(
                     Locale.getDefault(),
                     resources.getString(R.string.wind_unit_label),
                     state.weather.windSpeed
                 )
-                binding.searchHumidity.text = "${state.weather.humidity}%"
+                binding.searchContent.searchHumidity.text = "${state.weather.humidity}%"
             }
         }
     }
@@ -152,7 +171,7 @@ class SearchActivity :
         // position on right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-        rlp.setMargins(0, 0, 0, 30)
+        rlp.setMargins(0, 0, 0, 150)
     }
 }
 

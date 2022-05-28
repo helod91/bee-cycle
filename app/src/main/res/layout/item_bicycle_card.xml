@@ -157,6 +157,6 @@
         app:layout_constraintStart_toStartOf="@+id/cardView"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/ic_electric_scooter" />
+        app:lottie_rawRes="@raw/ic_cycling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

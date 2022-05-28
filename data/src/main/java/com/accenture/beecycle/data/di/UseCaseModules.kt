@@ -1,6 +1,8 @@
 package com.accenture.beecycle.data.di
 
 import com.accenture.beecycle.domain.usecases.GetGeoLocations
+import com.accenture.beecycle.domain.usecases.GetUserBicycles
+import com.accenture.beecycle.domain.usecases.GetUserTeams
 import com.accenture.beecycle.domain.usecases.GetWeather
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.dsl.module
@@ -12,5 +14,13 @@ val useCaseModules = module {
     }
     factory {
         GetGeoLocations(get(), get())
+    }
+
+    factory {
+        GetUserBicycles(get(), get())
+    }
+
+    factory {
+        GetUserTeams(get(), get())
     }
 }

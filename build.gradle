@@ -16,7 +16,7 @@ buildscript {
     ext.retrofitLoggingInterceptors = "com.squareup.okhttp3:logging-interceptor:4.9.3"
     ext.koin = "io.insert-koin:koin-core:3.2.0"
     ext.koinAndroid = "io.insert-koin:koin-android:3.2.0"
-    ext.coil = "io.coil-kt:coil:2.1.0"
+    ext.glide = "com.github.bumptech.glide:glide:4.13.0"
     ext.lottie = "com.airbnb.android:lottie:5.1.1"
     ext.googleMaps = 'com.google.android.gms:play-services-maps:17.0.0'
     ext.location = 'com.google.android.gms:play-services-location:19.0.1'

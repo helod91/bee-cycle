@@ -4,4 +4,6 @@ import com.accenture.beecycle.common.ViewIntent
 
 sealed class MainIntent : ViewIntent {
     data class GetCurrentWeather(val latitude: Double?, val longitude: Double?) : MainIntent()
+    object GetUserBicycles : MainIntent()
+    object GetUserTeams : MainIntent()
 }

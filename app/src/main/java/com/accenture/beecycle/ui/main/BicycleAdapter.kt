@@ -1,5 +1,6 @@
 package com.accenture.beecycle.ui.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,10 @@ import com.accenture.beecycle.common.BaseAdapter
 import com.accenture.beecycle.databinding.ItemBicycleCardBinding
 import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
+import com.accenture.beecycle.ui.search.SearchActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
 
     override fun presentBinding(parent: ViewGroup): ItemBicycleCardBinding =
@@ -39,6 +43,11 @@ class BicycleAdapter : BaseAdapter<ItemBicycleCardBinding, Bicycle>() {
             } else {
                 showViews(bicycleName, bicycleBrand, bicycleSpeed, bicycleDistance, bicycleImpact, bicycleMoneySaved, bicycleAnimation, bicycleOpenRoutePlanner)
                 hideViews(bicycleAddBikeLabel, bicycleAddBikeAnimation)
+
+                bicycleOpenRoutePlanner.setOnClickListener {
+                    val openSearch = Intent(root.context, SearchActivity::class.java)
+                    root.context.startActivity(openSearch)
+                }
             }
         }
     }

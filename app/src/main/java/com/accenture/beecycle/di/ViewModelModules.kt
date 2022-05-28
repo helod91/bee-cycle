@@ -9,5 +9,5 @@ import org.koin.dsl.module
 @ExperimentalCoroutinesApi
 val viewModelModules = module {
     viewModel { MainViewModel(get()) }
-    viewModel { SearchViewModel() }
+    viewModel { SearchViewModel(get()) }
 }

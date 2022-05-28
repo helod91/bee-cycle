@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,7 +16,10 @@ import com.accenture.beecycle.common.BaseActivity
 import com.accenture.beecycle.databinding.ActivitySearchBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
@@ -45,6 +49,13 @@ class SearchActivity :
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mapFragment = supportFragmentManager
             .findFragmentById(R.id.map_fragment) as SupportMapFragment
+        et_search_location.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dispatchIntent(SearchIntent.GetSearchResults(textView.text.trim().toString()))
+                return@setOnEditorActionListener true
+            }
+            false
+        }
         getLocation()
     }
 
@@ -69,7 +80,11 @@ class SearchActivity :
     }
 
     override fun render(state: SearchState) {
-
+        when (state) {
+            SearchState.LoadingSearchResult -> binding.searchResultView.loading()
+            SearchState.NoSearchResult -> binding.searchResultView.loading()
+            is SearchState.ResultSearch -> binding.searchResultView.setResults(state.results)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -93,15 +108,22 @@ class SearchActivity :
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap) {
-        if (ContextCompat.checkSelfPermission(this@SearchActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this@SearchActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             map.isMyLocationEnabled = true
         }
-       moveMyLocationButton()
+        moveMyLocationButton()
         fusedLocationClient.lastLocation
             .addOnSuccessListener(this) { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-                    val coordinate = LatLng(location.latitude, location.longitude) //Store these lat lng values somewhere. These should be constant.
+                    val coordinate = LatLng(
+                        location.latitude,
+                        location.longitude
+                    ) //Store these lat lng values somewhere. These should be constant.
 
                     val cameraFactory = CameraUpdateFactory.newLatLngZoom(
                         coordinate, 18f
@@ -112,12 +134,13 @@ class SearchActivity :
     }
 
     private fun moveMyLocationButton() {
-        val locationButton =mapFragment.view?.findViewWithTag<View>("GoogleMapMyLocationButton")
+        val locationButton = mapFragment.view?.findViewWithTag<View>("GoogleMapMyLocationButton")
 
-        val rlp=locationButton?.layoutParams as (RelativeLayout.LayoutParams)
+        val rlp = locationButton?.layoutParams as (RelativeLayout.LayoutParams)
         // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0)
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE)
-        rlp.setMargins(0,0,0,30)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+        rlp.setMargins(0, 0, 0, 30)
     }
 }
+

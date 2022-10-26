@@ -6,11 +6,11 @@ sourceCompatibility = "7"
 targetCompatibility = "7"
 
 android {
-    compileSdkVersion sdkVersion.compileSdkVersion
+    compileSdkVersion compileSDKVersion
 
     defaultConfig {
-        minSdkVersion sdkVersion.minSdkVersion
-        targetSdkVersion sdkVersion.targetSdkVersion
+        minSdkVersion minSDKVersion
+        targetSdkVersion targetSDKVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,12 +26,11 @@ android {
 
 }
 
-
 dependencies {
     api project(":domain")
 
     api retrofitGsonConverter
     api retrofitLoggingInterceptors
-    api koin
+    api koinAnnotations
     api koinAndroid
 }

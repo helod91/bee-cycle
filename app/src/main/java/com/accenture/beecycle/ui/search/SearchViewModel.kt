@@ -3,11 +3,12 @@ package com.accenture.beecycle.ui.search
 import com.accenture.beecycle.common.BaseViewModel
 import com.accenture.beecycle.domain.usecases.GetGeoLocations
 import com.accenture.beecycle.domain.usecases.GetWeather
-import com.accenture.beecycle.ui.main.MainAction
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.annotation.KoinViewModel
 
 @ExperimentalCoroutinesApi
+@KoinViewModel(binds = [SearchViewModel::class])
 class SearchViewModel(
     private val getGeoLocation: GetGeoLocations,
     private val getWeatherUseCase: GetWeather

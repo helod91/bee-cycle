@@ -7,8 +7,10 @@ import com.accenture.beecycle.domain.models.error.DomainException
 import com.accenture.beecycle.domain.repositories.GeoLocationRepository
 import com.accenture.beecycle.domain.repositories.NetworkInfoProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.core.annotation.Factory
 
 @ExperimentalCoroutinesApi
+@Factory
 class GetGeoLocations(
     private val geoLocationRepository: GeoLocationRepository,
     private val networkInfoProvider: NetworkInfoProvider

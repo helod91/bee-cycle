@@ -4,7 +4,9 @@ import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
 import com.accenture.beecycle.domain.models.Team
 import com.accenture.beecycle.domain.repositories.BicycleRepository
+import org.koin.core.annotation.Single
 
+@Single
 class RemoteBicycleRepository : BicycleRepository {
     companion object {
         val BIKES = ArrayList<Bicycle>().apply {

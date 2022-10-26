@@ -5,9 +5,11 @@ import com.accenture.beecycle.data.apiservices.WeatherApiService
 import com.accenture.beecycle.data.mappers.WeatherMapper
 import com.accenture.beecycle.domain.models.Weather
 import com.accenture.beecycle.domain.repositories.WeatherRepository
+import org.koin.core.annotation.Single
 
 private const val WEATHER_UNITS = "metric"
 
+@Single
 class RemoteWeatherRepository(
     private val weatherApiService: WeatherApiService,
     private val weatherMapper: WeatherMapper

@@ -2,7 +2,9 @@ package com.accenture.beecycle.data.mappers
 
 import android.location.Address
 import com.accenture.beecycle.domain.models.GeoSearchResult
+import org.koin.core.annotation.Single
 
+@Single
 class AddressMapper {
     fun toSingleLineAddress(currentAddresses: List<Address>): List<GeoSearchResult> {
         return currentAddresses.map {

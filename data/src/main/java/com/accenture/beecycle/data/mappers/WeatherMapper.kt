@@ -2,7 +2,9 @@ package com.accenture.beecycle.data.mappers
 
 import com.accenture.beecycle.data.entities.CurrentWeatherResponse
 import com.accenture.beecycle.domain.models.Weather
+import org.koin.core.annotation.Single
 
+@Single
 class WeatherMapper {
 
     fun toWeather(currentWeatherResponse: CurrentWeatherResponse?): Weather {

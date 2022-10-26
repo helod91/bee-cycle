@@ -6,9 +6,11 @@ import com.accenture.beecycle.domain.usecases.GetUserBicycles
 import com.accenture.beecycle.domain.usecases.GetWeather
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel(binds = [MainViewModel::class])
 @ExperimentalCoroutinesApi
-class MainViewModel(
+class MainViewModel constructor(
     private val getWeather: GetWeather,
     private val getUserBicycles: GetUserBicycles,
     private val getUserTeams: GetUserTeams

@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ const val WEATHER_API = "weather-api"
 
 val networkModules = module {
 
-    single {
+    singleOf<OkHttpClient> {
         val okHttpBuilder = OkHttpClient.Builder()
         okHttpBuilder.addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -22,7 +23,7 @@ val networkModules = module {
         okHttpBuilder.build()
     }
 
-    single<Gson> {
+    singleOf<Gson> {
         GsonBuilder()
             .setLenient()
             .create()

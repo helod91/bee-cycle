@@ -5,22 +5,14 @@ import com.accenture.beecycle.domain.usecases.GetUserBicycles
 import com.accenture.beecycle.domain.usecases.GetUserTeams
 import com.accenture.beecycle.domain.usecases.GetWeather
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 @ExperimentalCoroutinesApi
 val useCaseModules = module {
-    factory {
-        GetWeather(get(), get())
-    }
-    factory {
-        GetGeoLocations(get(), get())
-    }
-
-    factory {
-        GetUserBicycles(get(), get())
-    }
-
-    factory {
-        GetUserTeams(get(), get())
-    }
+    factoryOf(::GetGeoLocations) bind (GetGeoLocations::class)
+    factoryOf(::GetUserBicycles) bind (GetUserBicycles::class)
+    factoryOf(::GetUserTeams) bind (GetUserTeams::class)
+    factoryOf(::GetWeather) bind (GetWeather::class)
 }

@@ -11,7 +11,6 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.accenture.beecycle.R
 import com.accenture.beecycle.common.BaseActivity
-import com.accenture.beecycle.data.repositories.RemoteBicycleRepository
 import com.accenture.beecycle.data.repositories.RemoteBicycleRepository.Companion.BIKES
 import com.accenture.beecycle.databinding.ActivityMainBinding
 import com.accenture.beecycle.databinding.LayoutAddBikeBinding
@@ -19,15 +18,12 @@ import com.accenture.beecycle.domain.models.Bicycle
 import com.accenture.beecycle.domain.models.RIDE_TYPE
 import com.accenture.beecycle.domain.models.Team
 import com.accenture.beecycle.ui.profile.ProfileActivity
-import com.accenture.beecycle.ui.search.SearchActivity
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,7 +64,7 @@ class MainActivity :
         if (requestCode == REQ_LOCATION_PERMISSION) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Snackbar.make(
-                    this@MainActivity.main_container,
+                    binding.mainContainer,
                     "Permissions has been denied by user",
                     Toast.LENGTH_SHORT
                 ).show()

@@ -1,12 +1,12 @@
 package com.accenture.beecycle.data.repositories
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.accenture.beecycle.domain.repositories.NetworkInfoProvider
+import org.koin.core.annotation.Single
 
-@SuppressLint("MissingPermission")
+@Single
 class DeviceNetworkInfoProvider(private val context: Context) : NetworkInfoProvider {
 
     override fun hasInternetConnection(): Boolean {

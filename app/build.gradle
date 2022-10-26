@@ -1,17 +1,25 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
+apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk sdkVersion.compileSdkVersion
+    // For KSP
+    applicationVariants.configureEach { variant ->
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
+
+    compileSdk compileSDKVersion
 
     defaultConfig {
         applicationId "com.accenture.beecycle"
-        minSdk sdkVersion.minSdkVersion
-        targetSdk sdkVersion.targetSdkVersion
+        minSdk minSDKVersion
+        targetSdk targetSDKVersion
         versionCode 1
         versionName "1.0"
 
@@ -28,20 +36,24 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
 dependencies {
     implementation project(":data")
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
     implementation 'com.diogobernardino:williamchart:3.10.1'
@@ -52,4 +64,9 @@ dependencies {
     implementation googleMaps
     implementation location
     implementation design
+    implementation koin
+    implementation koinAndroid
+    implementation koinAnnotations
+    ksp koinKsp
+
 }

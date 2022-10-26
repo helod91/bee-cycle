@@ -7,8 +7,10 @@ import com.accenture.beecycle.domain.models.error.DomainException
 import com.accenture.beecycle.domain.repositories.NetworkInfoProvider
 import com.accenture.beecycle.domain.repositories.WeatherRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.core.annotation.Factory
 
 @ExperimentalCoroutinesApi
+@Factory
 class GetWeather(
     private val weatherRepository: WeatherRepository,
     private val networkInfoProvider: NetworkInfoProvider
